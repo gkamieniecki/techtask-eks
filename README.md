@@ -8,9 +8,9 @@
 * [Deploy and access Kubernetes Dashboard with kubectl](#Deploy-and-access-Kubernetes-Dashboard-with-kubectl)
 * [Deploy Kubernetes Metrics Server](#Deploy-Kubernetes-Metrics-Server)
 * [Deploy Kubernetes Dashboard](#Deploy-Kubernetes-Dashboard)
-* [Clean up your workspace](#Clean-up-your-workspace)
 * [Installing sock-shop on Kubernetes](#Installing-sock-shop-on-Kubernetes)
 * [Monitoring Using Prometheus Operator](#Monitoring-Using-Prometheus-Operator)
+* [Clean up your workspace](#Clean-up-your-workspace)
 
 
 ## General info
@@ -135,17 +135,6 @@ Navigate to the "Cluster" page by clicking on "Cluster" in the left navigation b
 
 [image]
 [image]
-## Clean up your workspace
-
-To destroy all the resources created in the previous steps go to ```eks-cluster``` and run:
-```
-$ terraform destroy
-```
-Then, go to ```remote-state``` directory and run: 
-```
-$ terraform destroy
-```
-
 ## Installing Sock-Shop on Kubernetes
 
 Go to main directory(```techtask/```) and run:
@@ -233,4 +222,14 @@ To cleanup the Kubernetes resources and the namespace created above run:
 ```
 $ helm delete prometheus-stack -n monitoring
 $ kubectl delete ns monitoring
+```
+## Clean up your workspace
+
+To destroy all the resources created in the previous steps go to ```eks-cluster``` and run:
+```
+$ terraform destroy
+```
+Then, go to ```remote-state``` directory and run: 
+```
+$ terraform destroy
 ```
