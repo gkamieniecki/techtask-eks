@@ -7,7 +7,7 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
-  manage_aws_auth = true 
+  manage_aws_auth = true
 
   workers_group_defaults = {
     root_volume_type = "gp2"
@@ -28,11 +28,11 @@ module "eks" {
     },
   ]
 
-  map_users                         = [
+  map_users = [
     {
-      userarn = "arn:aws:iam::830835002888:user/grzegorz_kamieniecki"
+      userarn  = "arn:aws:iam::830835002888:user/grzegorz_kamieniecki"
       username = "grzegorz_kamieniecki"
-      groups    = ["system:masters"]
+      groups   = ["system:masters"]
     },
   ]
 }
