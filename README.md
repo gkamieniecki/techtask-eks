@@ -8,9 +8,9 @@
 * [Deploy and access Kubernetes Dashboard with kubectl](#Deploy-and-access-Kubernetes-Dashboard-with-kubectl)
 * [Deploy Kubernetes Metrics Server](#Deploy-Kubernetes-Metrics-Server)
 * [Deploy Kubernetes Dashboard](#Deploy-Kubernetes-Dashboard)
-* [Clean up your workspace](#Clean-up-your-workspace)
 * [Installing sock-shop on Kubernetes](#Installing-sock-shop-on-Kubernetes)
 * [Monitoring Using Prometheus Operator](#Monitoring-Using-Prometheus-Operator)
+* [Clean up your workspace](#Clean-up-your-workspace)
 
 
 ## General info
