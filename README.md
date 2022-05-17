@@ -217,6 +217,14 @@ $ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-promethe
 
 Now, you can access the Web UI [here](http://localhost:9090) - (http://localhost:9090). 
 
+To access Grafana web UI, we need to forward port of ```prometheus-stack-kube-prom-grafana``` service. Run the following command on a separate terminal:
+```
+$ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-grafana 3000:80
+```
+To login into Grafana use:
+Username: ```admin```
+Password: ```prom-operator```
+
 ### Cleanup
 To cleanup the Kubernetes resources and the namespace created above run:
 ```
