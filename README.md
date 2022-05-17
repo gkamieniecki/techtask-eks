@@ -221,7 +221,7 @@ To access Grafana web UI, we need to forward port of ```prometheus-stack-kube-pr
 ```
 $ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-grafana 3000:80
 ```
-To login into Grafana use:
+To login into Grafana use credentials below.
 Username: ```admin```
 Password: ```prom-operator```
 
