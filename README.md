@@ -214,7 +214,7 @@ To access the Web UI of our Prometheus Server, we can use the ```prometheus-stac
 ### Verify Monitoring
 To access the Prometheus web UI, we need to forward port of ```prometheus-stack-kube-prom-prometheus``` service. Run the following command on a separate terminal:
 ```
-$ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-prometheus 9090
+$ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-prometheus 9090:9090
 ```
 
 Now, you can access the Web UI [here](http://localhost:9090) - (http://localhost:9090). 
