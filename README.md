@@ -1,5 +1,18 @@
 # Sock-shop app deploy on EKS cluster with monitoring
 
+## Table of contents
+* [General info](#general-info)
+* [Prerequisites](#Prerequisites)
+* [Set up your Terraform workspaces and provision resources](#Set-up-your-Terraform-workspaces-and-provision-resources)
+* [Configure kubectl](#Configure-kubectl)
+* [Deploy and access Kubernetes Dashboard with kubectl](#Deploy-and-access-Kubernetes-Dashboard-with-kubectl)
+* [Deploy Kubernetes Metrics Server](#Deploy-Kubernetes-Metrics-Server)
+* [Deploy Kubernetes Dashboard](#Deploy-Kubernetes-Dashboard)
+* [Clean up your workspace](#Clean-up-your-workspace)
+* [Installing sock-shop on Kubernetes](#Installing-sock-shop-on-Kubernetes)
+* [Monitoring Using Prometheus Operator](#Monitoring-Using-Prometheus-Operator)
+
+
 ## General info
 
 The repository contains components and instructions needed to deploy Sock-shop application on a provisioned EKS cluster as well as [kube-prometheus-stack](https://github.com/prometheus-operator/kube-prometheus) - end-to-end Kubernetes cluster monitoring with [Prometheus](https://prometheus.io/) using [Prometheus Operator](https://github.com/prometheus-operator/prometheus-operator).
@@ -15,58 +28,55 @@ The repository contains components and instructions needed to deploy Sock-shop a
 * Kubernetes 1.16+
 * Helm 3+
 
-## Set up and initialize your Terraform workspace
+## Set up Terraform workspaces and provision resources
 ```
 $ git clone https://github.com/hashicorp/learn-terraform-provision-eks-cluster
 $ cd eks-cluster
 ```
 In this directory you should find 6 files neccessary to provision a VPC, security groups and EKS cluster. Expected output: 
 
-[image]
-1. main.tf* - inside ```remote-state``` folder
+1. main.tf```*``` - inside ```remote-state``` folder
 2. vpc.tf - provisions a new VPC, subnets and availability zones using the [AWS VPC Module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.32.0).
 3. security-groups.tf - provisions the security groups used by the EKS cluster.
-4. eks-cluster.tf** - provisions all the resources (AutoScaling Groups, etc...) required to set up an EKS cluster using the AWS EKS Module.
+4. eks-cluster.tf```**``` - provisions all the resources (AutoScaling Groups, etc...) required to set up an EKS cluster using the AWS EKS Module.
 5. outputs.tf - defines the output configuration.
 6. versions.tf - sets the Terraform version to at least 0.14. It also sets versions for the providers used in this sample and backend for storing terraform state.
+7. kuberentes.tf - file with kuberenetes provider.
 
-*There might be a need to change the bucket name in ```main.tf``` file as it has to be unique. If this is the case, the bucket name in the backend in ```versions.tf``` has to be changed respectively.
+```*```There might be a need to change the bucket name in ```main.tf``` file as it has to be unique. If this is the case, the bucket name in the backend in ```versions.tf``` has to be changed respectively.
 
-** Under ```map_users``` fill your user's details (userarn and username).
+```**``` Under ```map_users``` fill your user's details (userarn and username).
 
-### Initialize Terraform workspace
+### Initialize and provision Terraform remote-state workspace
 After cloning the repository, initialize the Terraform workspace to download and configure the providers.
 
-1. Go to ```remote-state``` folder and run following command to initialize workspace:
+1. Go to ```remote-state``` folder and run following commands to initialize workspace:
 ```
 $ terraform init
 ```
-2. Go back to ```eks-cluster``` folder and run the same command.
-
-
-## Provision the EKS cluster and backend for remote state.
-
-### Provisiong backend for remote state
-
-Go to the ```remote-state``` folder and run ```terraform plan``` to review the planned actions:
+2. Run ```terraform plan``` to review the planned actions:
 ```
 $ terraform plan
 ```
-If correct, run:
+3. The plan should have 2 resources to create. If correct, run:
 ```
 $ terraform apply
 ```
 Confirm the apply with typing: ```yes```.
 
-### Provisioning the cluster
 
-Go back to ```eks-cluster``` directory and repeat the process:
+### Initialize and provision Terraform EKS cluster workspace
 
-Run ```terraform plan``` to review the planned actions:
+1. Go back to ```eks-cluster``` directory and repeat the process:
+```
+$ terraform init
+```
+
+2. Run ```terraform plan``` to review the planned actions:
 ```
 $ terraform plan
 ```
-If correct, run:
+3. The plan should have 53 resources to create. If correct, run:
 ```
 $ terraform apply
 ```
@@ -112,7 +122,7 @@ To use the Kubernetes dashboard, you need to create a ```ClusterRoleBinding``` a
 
 In another terminal (do not close the kubectl proxy process), create the ClusterRoleBinding resource by running the command:
 ```
-$ kubectl apply -f https://raw.githubusercontent.com/hashicorp/learn-terraform-provision-eks-cluster/main/kubernetes-dashboard-admin.rbac.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/gkamieniecki/techtask-eks/main/eks-cluster/kubernetes-dashboard-admin/kubernetes-dashboard-admin.rbac.yaml
 ```
 Generate the authorization token:
 ```
@@ -124,7 +134,7 @@ Select "Token" on the Dashboard UI then copy and paste the entire token you gene
 Navigate to the "Cluster" page by clicking on "Cluster" in the left navigation bar. You should see a list of nodes in your cluster.
 
 [image]
-
+[image]
 ## Clean up your workspace
 
 To destroy all the resources created in the previous steps go to ```eks-cluster``` and run:
@@ -136,7 +146,7 @@ Then, go to ```remote-state``` directory and run:
 $ terraform destroy
 ```
 
-## Installing sock-shop on Kubernetes
+## Installing Sock-Shop on Kubernetes
 
 Go to main directory(```techtask/```) and run:
 ```
@@ -216,7 +226,7 @@ To access the Prometheus web UI, we need to forward port of ```prometheus-stack-
 $ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-prometheus 9090
 ```
 
-Now, you can access the Web UI [here](localhost:9090) - (http://localhost:9090). 
+Now, you can access the Web UI [here](http://localhost:9090) - (http://localhost:9090). 
 
 ### Cleanup
 To cleanup the Kubernetes resources and the namespace created above run:
