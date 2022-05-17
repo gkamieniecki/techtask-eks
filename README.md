@@ -115,7 +115,7 @@ $ kubectl proxy
 ```
 You should be able to access the Kubernetes dashboard [here](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) - (http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
 
-[image]
+<img width="1133" alt="Screenshot 2022-05-17 at 10 52 24" src="https://user-images.githubusercontent.com/65422273/168780841-63183673-6a99-49ff-9fbe-fa08393fd2eb.png">
 
 ## Authenticate the dashboard
 To use the Kubernetes dashboard, you need to create a ```ClusterRoleBinding``` and provide an authorization token. This gives the cluster-admin permission to access the kubernetes-dashboard. Authenticating using kubeconfig is not an option. You can read more about it in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/#accessing-the-dashboard-ui).
@@ -131,10 +131,12 @@ $ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | g
 
 Select "Token" on the Dashboard UI then copy and paste the entire token you generated into the [dashboard authentication](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) screen to sign in. 
 
+<img width="1097" alt="Screenshot 2022-05-17 at 10 53 29" src="https://user-images.githubusercontent.com/65422273/168779854-a65aa199-b3b9-481b-a0c8-89df500dc3aa.png">
+
 Navigate to the "Cluster" page by clicking on "Cluster" in the left navigation bar. You should see a list of nodes in your cluster.
 
-[image]
-[image]
+<img width="1782" alt="Screenshot 2022-05-17 at 10 54 05" src="https://user-images.githubusercontent.com/65422273/168779842-7a126be0-8e74-49a7-96b8-945faaacf8d0.png">
+
 ## Installing Sock-Shop on Kubernetes
 
 Go to main directory(```techtask/```) and run:
