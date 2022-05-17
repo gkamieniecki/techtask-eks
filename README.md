@@ -21,7 +21,7 @@ The repository contains components and instructions needed to deploy Sock-shop a
 
 * GIT
 * Terraform
-* an AWS account with the IAM permissions listed on the EKS module documentation,
+* an AWS account with the IAM permissions listed on the EKS module documentation
 * a configured AWS CLI with profile name "scalac"
 * AWS IAM Authenticator
 * kubectl v1.23.6
