@@ -31,7 +31,7 @@ The repository contains components and instructions needed to deploy Sock-shop a
 ## Set up Terraform workspaces and provision resources
 ```
 $ git clone https://github.com/gkamieniecki/techtask-eks.git
-$ cd eks-cluster
+$ cd techtask-eks/eks-cluster
 ```
 In this directory you should find 6 files neccessary to provision a VPC, security groups and EKS cluster. Expected output: 
 
