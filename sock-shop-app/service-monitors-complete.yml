@@ -1,0 +1,153 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-carts-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: carts
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-catalogue-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: catalogue
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-front-end-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: front-end
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-orders-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: orders
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-payment-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: payment
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-queue-master-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: queue-master
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-rabbitmq-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: rabbitmq
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-shipping-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: shipping
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sock-shop-user-servicemonitor
+  labels:
+    release: prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+    - sock-shop
+  selector:
+    matchLabels:
+      name: user
+  endpoints:
+  - path: /metrics
+  - interval: 25s
+  
