@@ -11,7 +11,7 @@
 * [Installing sock-shop on Kubernetes](#Installing-sock-shop-on-Kubernetes)
 * [Monitoring Using Prometheus Operator](#Monitoring-Using-Prometheus-Operator)
 * [Clean up your workspace](#Clean-up-your-workspace)
-
+* [Things to improve](#things-to-improve)
 
 ## General info
 
@@ -41,7 +41,6 @@ In this directory you should find 6 files neccessary to provision a VPC, securit
 4. eks-cluster.tf```**``` - provisions all the resources (AutoScaling Groups, etc...) required to set up an EKS cluster using the AWS EKS Module.
 5. outputs.tf - defines the output configuration.
 6. versions.tf - sets the Terraform version to at least 0.14. It also sets versions for the providers used in this sample and backend for storing terraform state.
-7. kuberentes.tf - file with kuberenetes provider.
 
 ```*```There might be a need to change the bucket name in ```main.tf``` file as it has to be unique. If this is the case, the bucket name in the backend in ```versions.tf``` has to be changed respectively.
 
@@ -120,9 +119,9 @@ You should be able to access the Kubernetes dashboard [here](http://127.0.0.1:80
 ## Authenticate the dashboard
 To use the Kubernetes dashboard, you need to create a ```ClusterRoleBinding``` and provide an authorization token. This gives the cluster-admin permission to access the kubernetes-dashboard. Authenticating using kubeconfig is not an option. You can read more about it in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/#accessing-the-dashboard-ui).
 
-In another terminal (do not close the kubectl proxy process), create the ClusterRoleBinding resource by running the command:
+In another terminal (do not close the kubectl proxy process), create the ClusterRoleBinding resource by going to ```eks-cluster/kubernetes-dashboard-admin``` and running the command:
 ```
-$ kubectl apply -f https://raw.githubusercontent.com/gkamieniecki/techtask-eks/main/eks-cluster/kubernetes-dashboard-admin/kubernetes-dashboard-admin.rbac.yaml
+$ kubectl apply -f kubernetes-dashboard-admin.rbac.yaml
 ```
 Generate the authorization token:
 ```
@@ -139,9 +138,9 @@ Navigate to the "Cluster" page by clicking on "Cluster" in the left navigation b
 
 ## Installing Sock-Shop on Kubernetes
 
-Go to main directory(```techtask/```) and run:
+Go to main directory(```techtask-eks/```) and run:
 ```
-kubectl apply -f sock-shop-app/microservices-demo/deploy/kubernetes/complete-demo.yaml
+kubectl apply -f sock-shop-app/complete-demo.yaml
 ```
 Verify that the application has been deployed. If successful, you should see something like this:
 ```
@@ -186,11 +185,11 @@ $ helm repo update
 ```
 ### Install kube-prometheus-stack chart:
 ```
-$ helm install prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+$ helm install -f helm-charts/kube-prometheus-stack/values.yaml prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
 ```
 This chart will install ```prometheus-operator/prometheus-operator```, ```kubernetes/kube-state-metrics```, ```prometheus/node_exporter```, and ```grafana/grafana``` etc.
 
-The above chart will also deploy a Prometheus server. Verify that the Prometheus server has been deployed by the following command:
+The above chart will also deploy a Prometheus server. Verify that the Prometheus server has been deployed by running the following command:
 ```
 $ kubectl get prometheus -n monitoring
 NAME                                    VERSION   REPLICAS   AGE
@@ -209,8 +208,11 @@ prometheus-stack-kube-prom-prometheus       ClusterIP   172.20.125.16    <none> 
 prometheus-stack-kube-state-metrics         ClusterIP   172.20.75.90     <none>        8080/TCP                     2d
 prometheus-stack-prometheus-node-exporter   ClusterIP   172.20.67.21     <none>        9100/TCP                     2d
 ```
-To access the Web UI of our Prometheus Server, we can use the ```prometheus-stack-kube-prom-prometheus``` service.
-
+### Add service monitors for Sock-shop app
+To create service monitors needed to enable Prometheus the ability to scrape metrics from certain Sock-shop services, go to ```sock-shop-app``` directory and run:
+```
+kubectl apply -f service-monitors-complete.yml -n monitoring
+```
 ### Verify Monitoring
 To access the Prometheus web UI, we need to forward port of ```prometheus-stack-kube-prom-prometheus``` service. Run the following command on a separate terminal:
 ```
@@ -221,7 +223,7 @@ Now, you can access the Web UI [here](http://localhost:9090) - (http://localhost
 
 To access Grafana web UI, we need to forward port of ```prometheus-stack-kube-prom-grafana``` service. Run the following command on a separate terminal:
 ```
-$ kubectl port-forward -n monitoring service/prometheus-stack-kube-prom-grafana 3000:80
+$ kubectl port-forward -n monitoring service/prometheus-stack-grafana 3000:80
 ```
 
 Now, you can access the Web UI [here](http://localhost:3000) - (http://localhost:3000).
@@ -244,3 +246,14 @@ Then, go to ```remote-state``` directory and run:
 ```
 $ terraform destroy
 ```
+
+## Things to improve
+- Add Grafana dashboards visualising the Sock-shop app's performance
+- Add exporters for Sock-shop's db services e.g. rabbitmq as the provided version does not expose metrics.
+- Add alerting e.g mail, slack.
+- Find the reason why app's targets in Prometheus are duplicated
+- Add log management e.g ELK stack
+- Terraform code
+- Introduce more automation to the set-up e.g scripts 
+- Remove uneccessary dashboards, targets etc that come with kube-prometheus-stack - overall focusing more on customization
+
